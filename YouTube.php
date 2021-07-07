@@ -9,7 +9,7 @@ class YouTube {
      * api key from https://console.developers.google.com/
      * @var string
      */
-    private static string $KEY ="AIzaSyACxv_6_s95fynZCMxqJ7xvB-LEM4zoVJI";
+    private static string $KEY ="HERE_YOUR_API_KEY";
 
     /**
      * @var string
