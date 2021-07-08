@@ -58,7 +58,7 @@ class YouTube {
     public function search($query)
     {
         $param = [
-            'order' => 'viewCount',
+            'order' => 'date',
             'part'=> 'snippet',
             'q'=> $query,
             'type'=> 'video',
