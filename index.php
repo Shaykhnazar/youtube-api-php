@@ -20,20 +20,29 @@
             $result = $_SESSION['result'];
             if(is_array($result)){
 
-                for($i=0;$i<count($result['items']);$i++){
+                for($i=0;$i<count($result);$i++){
             ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header " id="heading<?php echo $i;?>">
                         <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $i;?>" aria-expanded="true" aria-controls="collapse<?php echo $i;?>">
-                            <?php echo $result['items'][$i]['snippet']['title'];?>
+                            <?php echo $result[$i]['title'];?>
                         </button>
-                        <small><?php echo date('d-m-Y', strtotime($result['items'][$i]['snippet']['publishedAt']));?></small>
-                        <p class="mb-1"><?php echo $result['items'][$i]['snippet']['channelTitle'];?></p>
+                        <small><?php echo $result[$i]['publishedAt'];?></small>
+                        <p class="mb-1"><?php echo $result[$i]['channelTitle'];?></p>
+                        <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                            </svg>
+                            <span style="color: red">
+                                <?php echo $result[$i]['viewCount'];?>
+                            </span>
+                        </p>
                     </h2>
                     <div id="collapse<?php echo $i;?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $i;?>" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <iframe width="420" height="315"
-                                    src="https://www.youtube.com/embed/<?php echo $result['items'][$i]['id']['videoId'];?>?autoplay=0">
+                                    src="https://www.youtube.com/embed/<?php echo $result[$i]['videoId'];?>?autoplay=0">
                             </iframe>
                         </div>
                     </div>

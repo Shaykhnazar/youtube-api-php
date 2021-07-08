@@ -72,23 +72,17 @@ class YouTube {
 
     /**
      * @param $id
-     * @return array|null
+     * @return int|null
      * @throws Exception
      */
-    public function videoInfo($id): ?array
+    public function videoViewCount($id): ?int
     {
-        $url = $this->buildUrlQuery($id);
+        $url = $this->buildUrlQuery($id, 'statistics');
         $MetaData = $this->apiParse($url);
 
         if ($MetaData != false && count($MetaData['items']) == 1)
         {
-            return [
-                'id'=> $MetaData['items'][0]['id'],
-                'title'=> $MetaData['items'][0]['snippet']['title'],
-                'author'=> $MetaData['items'][0]['channelTitle'],
-                'duration'=> $this->duration($id),
-            ];
-
+            return $MetaData['items'][0]['statistics']['viewCount'];
         } else {
             return null;
         }
@@ -143,4 +137,24 @@ class YouTube {
         return $FormatTime->format('H:i:s');
     }
 
+    /**
+     * @param array $result
+     * @return array
+     * @throws Exception
+     */
+    public function sortByView(array $result): array
+    {
+        $videos = [];
+        for ($i=0;$i<count($result['items']);$i++){
+            $videos[$i] ['title']= $result['items'][$i]['snippet']['title'];
+            $videos[$i] ['publishedAt']= date('d-m-Y', strtotime($result['items'][$i]['snippet']['publishedAt']));
+            $videos[$i] ['channelTitle']= $result['items'][$i]['snippet']['channelTitle'];
+            $videos[$i] ['videoId']= $result['items'][$i]['id']['videoId'];
+            $videos[$i] ['viewCount']= $this->videoViewCount($result['items'][$i]['id']['videoId']);
+        }
+
+        array_multisort(array_column($videos, 'viewCount'), SORT_DESC, $videos);
+
+        return $videos;
+    }
 }
